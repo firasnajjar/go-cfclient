@@ -39,6 +39,7 @@ type CreateServiceBrokerRequest struct {
 }
 
 type ServiceBroker struct {
+	Id        string `json:"guid"`
 	Name      string `json:"name"`
 	BrokerURL string `json:"broker_url"`
 	Username  string `json:"auth_username"`
@@ -130,6 +131,7 @@ func (c *Client) ListServiceBrokersByQuery(query url.Values) ([]ServiceBroker, e
 			return []ServiceBroker{}, err
 		}
 		for _, sb := range serviceBrokerResp.Resources {
+			sb.Entity.Id = sb.Meta.Guid
 			sbs = append(sbs, sb.Entity)
 		}
 		requestUrl = serviceBrokerResp.NextUrl
